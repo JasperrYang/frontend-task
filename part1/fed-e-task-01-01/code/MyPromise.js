@@ -106,6 +106,8 @@ class MyPromise {
         addDate(index, element);
       }
     });
+
+    resolve(result);
   }
 
   static resolve(value) {

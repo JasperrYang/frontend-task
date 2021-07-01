@@ -101,6 +101,7 @@ let _underscore = fp.replace(/\W+/g, "_"); // <--无须改动
 
 // 1.实现 sanitizeNames 函数
 const sanitizeNames = fp.flowRight(
+  fp.map((name) => name.toLowerCase()),
   fp.map(_underscore()),
   fp.map((car) => car.name)
 );
