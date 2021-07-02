@@ -7,6 +7,8 @@
  * 5 then方法是可以被链式调用的，后面then方法的回调函数拿到值的是上一个then方法的回调函数的返回值
  */
 
+const { reject } = require("lodash");
+
 const PENDING = "pending";
 const FULFILLED = "fulfilled";
 const REJECTED = "rejected";
@@ -87,27 +89,27 @@ class MyPromise {
   static all(array) {
     let result = [];
     let count = 0;
-    function addDate(index, data) {
-      result[index] = data;
-      count++;
-      // 确保所有的方法全部成功才resolve
-      if (count === array.length) {
-        resolve(result);
+    return new MyPromise((resolve, reject) => {
+      function addDate(index, data) {
+        result[index] = data;
+        count++;
+        // 确保所有的方法全部成功才resolve
+        if (count === array.length) {
+          resolve(result);
+        }
       }
-    }
 
-    array.forEach((element, index) => {
-      if (element instanceof MyPromise) {
-        element.then(
-          (value) => addDate(index, value),
-          (reason) => reject(reason)
-        );
-      } else {
-        addDate(index, element);
-      }
+      array.forEach((element, index) => {
+        if (element instanceof MyPromise) {
+          element.then(
+            (value) => addDate(index, value),
+            (reason) => reject(reason)
+          );
+        } else {
+          addDate(index, element);
+        }
+      });
     });
-
-    resolve(result);
   }
 
   static resolve(value) {
@@ -150,3 +152,5 @@ function resolvePromise(promise, result, resolve, reject) {
     resolve(result);
   }
 }
+
+module.exports = MyPromise;
