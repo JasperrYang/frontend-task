@@ -2,35 +2,30 @@
 
 **1、谈谈你对工程化的初步认识，结合你之前遇到过的问题说出三个以上工程化能够解决问题或者带来的价值。**
 
-答:
+答: 工程化是在开发阶段使用提高效率的语法、规范和标准，将源代码自动构建为生产代码的过程。
 
-　
-
-　
+- 解析转化 ES6 语法、less、sass 等预处理 css
+- 完成上线需要压缩代码等重复工作
+- 统一开发规范，编码规则
 
 **2、你认为脚手架除了为我们创建项目结构，还有什么更深的意义？**
 
-答:
-
-　
-
-　
+答: 脚手架除了为我们创建项目结构，更重要的是给开发者提供一种约束和规范。使团队开发拥有相同的组织结构、模块依赖、工具配置。基础代码等
 
 ## 编程题
 
 **1、概述脚手架实现的过程，并使用 NodeJS 完成一个自定义的小型脚手架工具**
 
-　
+- 初始化模块，安装 yeoman 依赖 `yarn add -g yo`
+- 安装 generator 基类：`yarn add yeoman-generator`
+- 创建 generators/app/index.js 为 Generator 的核心入口
+- 读取 `templates` 微信小程序模板文件写入指定目录
+- 执行 `yarn link` ，根据模板生成项目结构目录
+- 在 `templates` 模板中集成 `plop`，可通过 `yarn plop ${name}`生成小程序新页面
 
-　
+- **2、尝试使用 Gulp 完成项目的自动化构建** ( **[先要作的事情](https://gitee.com/lagoufed/fed-e-questions/blob/master/part2/%E4%B8%8B%E8%BD%BD%E5%8C%85%E6%98%AF%E5%87%BA%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F.md)** )
 
-**2、尝试使用 Gulp 完成项目的自动化构建**  ( **[先要作的事情](https://gitee.com/lagoufed/fed-e-questions/blob/master/part2/%E4%B8%8B%E8%BD%BD%E5%8C%85%E6%98%AF%E5%87%BA%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F.md)** )
-
-(html,css,等素材已经放到code/pages-boilerplate目录)
-
-　
-
-　
+(html,css,等素材已经放到 code/pages-boilerplate 目录)
 
 ## 说明：
 
