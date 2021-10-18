@@ -96,4 +96,48 @@
 
 #### 3、请简述虚拟 DOM 中 Key 的作用和好处。
 
+sameVnode 方法在比较判断两个 Vnode 是否相同节点时是通过 tag 和 key 判断的，通过设置 key 可以有效判断两个节点是否相同。
+
+```js
+function sameVnode (a, b) {
+ return (
+   a.key === b.key && (
+     (
+       a.tag === b.tag &&
+       a.isComment === b.isComment &&
+       isDef(a.data) === isDef(b.data) &&
+       sameInputType(a, b)
+     ) || (
+       isTrue(a.isAsyncPlaceholder) &&
+       a.asyncFactory === b.asyncFactory &&
+       isUndef(b.asyncFactory.error)
+     )
+   )
+ )
+}
+```
+
+在 updateChildren 方法中进行 Diff 算法时，设置 key 可以更有效的判断两个节点，减少 patchVnode 方法的调用，以及 DOM 渲染的次数提高性能。
+
+```js
+// patch 函数
+if (!isRealElement && sameVnode(oldVnode, vnode)) { //新旧
+        patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly)
+ } else {
+   // 新旧Vnode 都存在且不相同时，删除旧Vnode，添加新的Vnode。
+ }
+```
+
 #### 4、请简述 Vue 中模板编译的过程。
+
+![模板编译过程.png](https://upload-images.jianshu.io/upload_images/6010417-770c6955f959e5e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+- 判断是否传入了 template，没有的话，则获取 el 节点的 outerHTML 作为 template
+- 从缓存中加载编译过的 render 函数，缓存中没有则调用 compile 编译
+- 调用 compile 函数，合并 options 后调用 baseCompile 方法
+- parse 将模板字符串的模板编译转换成 AST 抽象语法树
+- optimize 对 AST 进行静态节点标记，主要用来做虚拟DOM的渲染优化
+- 通过 generate 将 AST 抽象语法树转换为 render 函数的 js 字符串
+- 将 render 函数返回的 js 字符串函数通过 createFunction 转换为 一个可以执行的函数
+- 将可执行的 render 函数挂载到 option 中
+- 执行公共的 mount 函数
